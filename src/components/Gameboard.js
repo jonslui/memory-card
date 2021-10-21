@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import Tile from './Tile';
 import uniqid from 'uniqid';
+import './styles/Gameboard.css';
 
 const Gameboard = (props) => {
   const [order, setOrder] = useState([0,1,2,3,4,5,6,7,8,9]);
@@ -33,13 +34,17 @@ const Gameboard = (props) => {
   }
 
   return (
-      order.map((number) => {
+    <div className = 'tileContainer'>
+      {
+       order.map((number) => {
         return <Tile 
         updateTileHistory = {props.updateTileHistory}
         id = {number}
         key = {uniqid()}
         shuffleOrder = {shuffleOrder}/>
       })
+      }
+    </div>
   )
 }
 

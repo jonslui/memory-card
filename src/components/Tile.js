@@ -1,11 +1,16 @@
-const Tile = (props) => {
+import './styles/Tile.css'
 
+const Tile = (props) => {
   return (
-    <div
-      onClick = {(event) => {
-        props.updateTileHistory(props.id);
-        props.shuffleOrder();
-      }}> {props.id} </div>
+      <img 
+        className = 'image'
+        src = {'/assets/images/' + props.id + '.png'}
+        alt = {'Image' + props.id}
+        onClick = {() => {
+          props.updateTileHistory(props.id);
+          props.shuffleOrder();
+        }}
+      />
   )
 }
 

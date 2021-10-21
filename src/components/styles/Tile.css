@@ -1,0 +1,10 @@
+.tile {
+  flex-grow: 1;
+  /* width: auto; */
+}
+
+.image {
+  /* min-width: 100px; */
+  max-width: 20%;
+  max-height: auto;
+}

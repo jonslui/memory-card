@@ -1,0 +1,9 @@
+.scoresContainer {
+  display: flex;
+  flex-wrap: wrap;
+
+}
+
+.score {
+  flex-grow: 1;
+}

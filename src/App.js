@@ -8,7 +8,6 @@ const App = () => {
   const [highScore, setHighScore] = useState(0);
   const [clickedTiles, setClickedTiles] = useState([]);
 
-  // break this out into different functions
   function updateTileHistory(id){
     if (clickedTiles.includes(id)) {
       if(currentScore > highScore){
@@ -24,6 +23,8 @@ const App = () => {
 
   return (
     <div className="App">
+      <h1>Memory Game</h1>
+
       <Scoreboard
         highScore = {highScore} 
         currentScore = {currentScore}
