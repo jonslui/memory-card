@@ -1,14 +1,16 @@
 import './styles/Tile.css'
 
+/*
+
+*/
 const Tile = (props) => {
   return (
       <img 
         className = 'image'
-        src = {'/assets/images/' + props.id + '.png'}
+        src = {props.path + props.id + '.png'}
         alt = {'Image' + props.id}
         onClick = {() => {
-          props.updateTileHistory(props.id);
-          props.shuffleOrder();
+          props.onTileClick(props.id);
         }}
       />
   )

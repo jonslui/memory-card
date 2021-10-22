@@ -1,4 +1,9 @@
 .tileContainer {
-  display: flex;
+  display: inline-flex;
   flex-wrap: wrap;
+  gap: 17%;
+  padding-left: 10%;
+  padding-right: 10%;
+  padding-top: 2%;
+  justify-content: center;
 }

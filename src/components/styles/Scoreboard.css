@@ -1,9 +1,11 @@
 .scoresContainer {
   display: flex;
   flex-wrap: wrap;
-
+  padding-left: 20%;
+  padding-right: 20%;
 }
 
 .score {
+  font-size: large;
   flex-grow: 1;
 }
