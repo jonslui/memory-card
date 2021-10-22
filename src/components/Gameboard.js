@@ -3,9 +3,6 @@ import Tile from './Tile';
 import uniqid from 'uniqid';
 import './styles/Gameboard.css';
 
-/*
-
-*/
 const Gameboard = (props) => {
   return (
     <div className = 'tileContainer'>

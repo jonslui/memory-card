@@ -1,7 +1,8 @@
 import './App.css';
 import React, {useState, useEffect} from 'react';
-import Scoreboard from './components/Scoreboard'
-import Gameboard from './components/Gameboard'
+import Title from './components/Title';
+import Scoreboard from './components/Scoreboard';
+import Gameboard from './components/Gameboard';
 
 const App = () => {
   const paths = [{path: '/assets/images/level_1/', length: 6},
@@ -12,13 +13,14 @@ const App = () => {
   const [highScore, setHighScore] = useState(0);
   const [clickedTiles, setClickedTiles] = useState([]);
   const [currentPath, setCurrentPath] = useState(0);
-  const [isGameOver, setIsGameOver] = useState(false);
+  const [title, setTitle] = useState('Chord Memory');
 
   /*
     randomize image order on mount to make sure they're not displayed in the same order on every load
   */
   useEffect(() => {
     shuffleOrder();
+    changeTitle('Click a chord to begin!')
   }, []);  
 
 
@@ -46,6 +48,23 @@ const App = () => {
     setTileOrder(array);
   }
 
+    /*
+    Instructions/Feedback in this app are provided by
+    changing the title, and adding/removing an animation class on each change.
+    The animation takes 3 seconds, so setTimeout is called for 4, giving the user time
+    to read the message before it is cleared away and replaced with the App title.
+  */
+    function changeTitle(message){
+      const title = document.getElementById('title');
+      setTitle(message);
+      title.className = 'title_animation';
+  
+      setTimeout(() => {
+        title.className = '';
+        setTitle('Chord Memory');
+      }, 4000);
+    }
+
   /*
     This function is passed through props to Tile.js.
     When a tile is clicked in Tile.js it calls this function with the clicked Tiles id.
@@ -62,12 +81,19 @@ const App = () => {
     }
   }
 
+  /*
+    This function is called on an incorrect click. 
+    It calls setHighScore if necessary, resetGame, and provides player feedback.
+  */
   function onError(){
-    alert('Oh no! Better luck next time.')
     if(currentScore > highScore) {
       setHighScore(currentScore);
+      resetGame();
+      changeTitle('New High Score!');
+    } else {
+      resetGame();
+      changeTitle('Oops. Keep Trying.');
     }
-    resetGame();
   }
 
   /*
@@ -87,14 +113,14 @@ const App = () => {
     sets high score then resets all other values.
   */
   function onPerfectGame(){
-    alert('Congratulations! Perfect Game!');
+    changeTitle('Congratulations! Perfect Game!');
     setHighScore(currentScore + 1);
     resetGame();
   }
   
   // changes the path for photos and resets chosen tile list
   function onClearedLevel(){
-    alert('Congratulations! You passed this level!');
+    changeTitle('Completed Level ' + (currentPath + 1) + '!');
     setCurrentPath(currentPath + 1);
     setClickedTiles([])
     shuffleOrder(1);
@@ -113,7 +139,9 @@ const App = () => {
 
   return (
     <div className="App">
-      <h1>Chord Memory</h1>
+      <Title 
+        title = {title}
+      />
 
       <Scoreboard
         highScore = {highScore} 
@@ -122,11 +150,9 @@ const App = () => {
 
       <Gameboard 
         path = {paths[currentPath].path}
-        // length = {paths[currentPath].length}
         tileOrder = {tileOrder}
         onTileClick = {(id) => {onTileClick(id)}}
       /> 
-
     </div>
   );
 }

@@ -1,0 +1,20 @@
+#title {
+  padding-top: 10px;
+  font-size: 32px;
+  padding-bottom: 20px;
+  margin: auto;
+  height: 40px;
+}
+.title_animation{
+  /* animation */
+  white-space: nowrap;
+  overflow: hidden;
+  animation: type 4s linear 0s ;
+}
+@keyframes type {
+  from {
+    width: 0px;
+  } to {
+    width: 700px;
+  }
+}

@@ -1,7 +1,7 @@
 import './styles/Tile.css'
 
 /*
-
+  onTileClick links back to App.js where it calls other associated functions to evaluate player choice
 */
 const Tile = (props) => {
   return (
