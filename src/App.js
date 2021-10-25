@@ -5,14 +5,15 @@ import Scoreboard from './components/Scoreboard';
 import Gameboard from './components/Gameboard';
 
 const App = () => {
-  const paths = [{path: '/assets/images/level_1/', length: 6},
-                {path: '/assets/images/level_2/', length: 9},]
-  // 6 is used here because it is the length of the first level
-  const [tileOrder, setTileOrder] = useState([...Array(6).keys()].map(i => i++))
+  const levels = [{path: '/assets/images/level_1/', length: 4},
+                {path: '/assets/images/level_2/', length: 6},
+                {path: '/assets/images/level_3/', length: 9},]
+  // 4 is used here as it is the length of the first level in levels
+  const [tileOrder, setTileOrder] = useState([...Array(4).keys()].map(i => i++))
   const [currentScore, setCurrentScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
   const [clickedTiles, setClickedTiles] = useState([]);
-  const [currentPath, setCurrentPath] = useState(0);
+  const [currentLevel, setCurrentLevel] = useState(0);
   const [title, setTitle] = useState('Chord Memory');
 
   /*
@@ -26,44 +27,48 @@ const App = () => {
 
   /*
     position variable will sometimes be passed with a +1 value when a match is cleared to set up the next board
-    position will sometimes be passes with a -currentPath value to reset game to board #1
+    position will sometimes be passed with a -currentLevel value to reset board to level 1
   */
   function shuffleOrder(position = 0){
-    // create an array of the length of the current levels array with values incrementing by 1
-    // These values correspond to photos saved in public/assets/images - rendered in Tile.js
-    let array = [...Array(paths[currentPath + position].length).keys()].map(i => i++),
+    // create an array of the length of the current level with values incrementing by 1
+    // (These values correspond to photos saved in public/assets/images - rendered in Tile.js, (e.g. 0.png, 1.png, 2.png))
+    let array = [...Array(levels[currentLevel + position].length).keys()].map(i => i++),
         length = array.length,
         temp,
         index;
+
     // While there remain elements to shuffle…
     while (length) {
       // Pick a remaining element and reduce length by 1…
       index = Math.floor(Math.random() * length--);
-      // And swap it with the current element…
+      // Swap it with the current element…
       temp = array[length];
       array[length] = array[index];
       array[index] = temp;
     }
-    // Update state
+
+    // Update state with shuffled order
     setTileOrder(array);
   }
 
-    /*
+
+  /*
     Instructions/Feedback in this app are provided by
     changing the title, and adding/removing an animation class on each change.
     The animation takes 3 seconds, so setTimeout is called for 4, giving the user time
     to read the message before it is cleared away and replaced with the App title.
   */
-    function changeTitle(message){
-      const title = document.getElementById('title');
-      setTitle(message);
-      title.className = 'title_animation';
-  
-      setTimeout(() => {
-        title.className = '';
-        setTitle('Chord Memory');
-      }, 4000);
-    }
+  function changeTitle(message){
+    const title = document.getElementById('title');
+    setTitle(message);
+    title.className = 'title_animation';
+
+    setTimeout(() => {
+      title.className = '';
+      setTitle('Chord Memory');
+    }, 4000);
+  }
+
 
   /*
     This function is passed through props to Tile.js.
@@ -97,12 +102,12 @@ const App = () => {
   }
 
   /*
-    If the first for loop passes, that means that the current stage was cleared.
-    If the second for loop passes, that means that all levels have been cleared.
+    If the first if statement passes, that means that the current stage was cleared.
+    If the second if statement passes, that means that all levels have been cleared.
   */
   function checkForWin(){
-    if(clickedTiles.length + 1 === paths[currentPath].length){
-      currentPath + 1 === paths.length ? onPerfectGame() : onClearedLevel();
+    if(clickedTiles.length + 1 === levels[currentLevel].length){
+      currentLevel + 1 === levels.length ? onPerfectGame() : onClearedLevel();
       return
     }
     shuffleOrder();
@@ -120,21 +125,21 @@ const App = () => {
   
   // changes the path for photos and resets chosen tile list
   function onClearedLevel(){
-    changeTitle('Completed Level ' + (currentPath + 1) + '!');
-    setCurrentPath(currentPath + 1);
+    changeTitle('Completed Level ' + (currentLevel + 1) + '!');
+    setCurrentLevel(currentLevel + 1);
     setClickedTiles([])
     shuffleOrder(1);
   }
 
   /*
     returns the player to level 1 and resets all values.
-    shuffleOrders -currentPath value resets the tiles to be rendered array to path 0
+    shuffleOrders -currentLevel value resets the tiles to be rendered array to path 0
   */
   function resetGame(){
-    setCurrentPath(0);
+    setCurrentLevel(0);
     setCurrentScore(0);
     setClickedTiles([]);
-    shuffleOrder(-currentPath);
+    shuffleOrder(-currentLevel);
   }
 
   return (
@@ -149,7 +154,7 @@ const App = () => {
       />
 
       <Gameboard 
-        path = {paths[currentPath].path}
+        path = {levels[currentLevel].path}
         tileOrder = {tileOrder}
         onTileClick = {(id) => {onTileClick(id)}}
       /> 

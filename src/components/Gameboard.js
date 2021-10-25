@@ -3,6 +3,9 @@ import Tile from './Tile';
 import uniqid from 'uniqid';
 import './styles/Gameboard.css';
 
+/*
+  Creates components for each value in the tileOrder array
+*/
 const Gameboard = (props) => {
   return (
     <div className = 'tileContainer'>
