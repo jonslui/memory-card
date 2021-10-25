@@ -5,9 +5,9 @@ import Scoreboard from './components/Scoreboard';
 import Gameboard from './components/Gameboard';
 
 const App = () => {
-  const levels = [{path: '/assets/images/level_1/', length: 4},
-                {path: '/assets/images/level_2/', length: 6},
-                {path: '/assets/images/level_3/', length: 9},]
+  const levels = [{path: './assets/images/level_1/', length: 4},
+                {path: './assets/images/level_2/', length: 6},
+                {path: './assets/images/level_3/', length: 9},]
   // 4 is used here as it is the length of the first level in levels
   const [tileOrder, setTileOrder] = useState([...Array(4).keys()].map(i => i++))
   const [currentScore, setCurrentScore] = useState(0);
